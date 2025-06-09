@@ -1,4 +1,4 @@
-﻿# gemspeak
+# gemspeak
 ***Gemspeak* is a library that simplifies the `google.genai` library into a simple, easy interface, and provides functions to use multiple API keys at once.**
 
 This chart shows some of the supported features, features in progress, and features that are not currently supported. Check here for updates; "Not Supported" might change eventually!
@@ -283,22 +283,49 @@ It has the following parameters:
 |`model`|The Gemini model id to use.|`str`|
 |`system_prompt`|The system prompt to use to initialize the conversation. Change to change the context. Set to "" for no system prompt.|`str`|
 |`warn_on_unconventional_speaker`|If True, will warn if a speaker is submitted that is not "USER", "ASSISTANT", or "SYSTEM".|`bool`|
-|`client`|Optional. The client object to use. If not given, it must be given with the `generate_response` method.|`client | None`|
-|`settings`|Either TextGenSettings or ImageGenSettings to use for the conversation.| `TextGenSettings | ImageGenSettings`|
+|`client`|Optional. The client object to use. If not given, it must be given with the `generate_response` method.|`client, None`|
+|`settings`|Either TextGenSettings or ImageGenSettings to use for the conversation.| `TextGenSettings, ImageGenSettings`|
+
+## Initalization
+
+Example initalization of the `gemspeak.Conversation` class from the client. Creating from the client will add the client to the conversation object and it will not need to be specified when calling `Conversation.generate_response`
+```
+>>> cli_conv = cli.create_conversation(
+... 	model="gemini-2.0-flash",
+... )
+```
+
+Example initalization of the `gemspeak.Conversation` class without the client. The client object must be passed to the `client` argument of the `Conversation.generate_response` function.
+```
+>>> regular_conv = Conversation(
+... 	model="gemini-1.5-pro",
+... 	settings=TextGenSettings(
+... 		code_execution=True
+... 	)
+... )
+```
 
 ## Methods
 
-Example initalization of the `gemspeak.Conversation` class:
-```
->>> conv
+### `Conversation.add_contents`
 
 Use `Conversation.add_contents` to add text for either side. Set `speaker` to the speaker name, and `text` to the text to add.
-NOTE: Adding a `"USER"` content will NOT generate the AI response. You must use `Conversation.generate_response`
+NOTE: Adding a `"USER"` content will NOT generate the AI response. You must use `Conversation.generate_response`.
 
-Example Usage:
+### `Conversation.generate_response`
 
 Use `Conversation.generate_response` to generate the response of the model to the current conversation. If the user has just spoken, Gemini will respond with it's response. However, if the assistant has just spoken, Gemini will likley impersonate the user and make up a follow-up question.
 
+Example usage of `Conversation.add_contents` and `Conversation.generate_response`
+
+```
+>>> cli_conv.add_contents("USER", "What is 5 + 5?")
+>>> cli_conv.add_contents("ASSISTANT", "5 + 5 is 11")
+>>> cli_conv.add_contents("USER", "No it's not...")
+>>> cli_conv.generate_contents()
+>>> print(str(cli_conv))
+```
+
 # Versions
-## 0.1.2
+## 1.1.0
 - First release.
