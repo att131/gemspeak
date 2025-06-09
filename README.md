@@ -327,5 +327,7 @@ Example usage of `Conversation.add_contents` and `Conversation.generate_response
 ```
 
 # Versions
+## 1.1.1
+- Bug fix: `GemSpeakClient` was not importable via `gemspeak.GemSpeakClient` as documentation states.
 ## 1.1.0
 - First release.
