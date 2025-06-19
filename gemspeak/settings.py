@@ -113,6 +113,10 @@ class BaseSettings(abc.ABC):
             TEXT_EMBEDDING_AVAILABLE if isinstance(self, ContentEmbeddingSettings) else None
         ]
 
+        # Perform the custom thinking mode "AUTO"
+        if self.perform_thinking == "AUTO" and THINKING_AVAILABLE in model_features:
+            selected_features.append(THINKING_AVAILABLE)
+
         # Check that all the selected features are available for the model
         for feature in selected_features:
             if feature and feature not in model_features:
@@ -138,7 +142,7 @@ class BaseSettings(abc.ABC):
 class TextGenSettings(BaseSettings):
     def __init__(self,
                  code_execution:bool=False,
-                 perform_thinking:bool=False,
+                 perform_thinking:bool | str="AUTO",
                  thinking_budget:int | None=None,
                  perform_grounding:bool=False,
                  url_context:bool=False,
@@ -150,7 +154,7 @@ class TextGenSettings(BaseSettings):
 
         Parameters:
             code_execution (bool): Whether to allow code execution.
-            perform_thinking (bool): Whether to allow the model to think before generating a response. Only available for Gemini 2.5.
+            perform_thinking (bool): Whether to allow the model to think before generating a response. Set to "AUTO" to enable if available. Only available for Gemini 2.5.
             thinking_budget (int | None): The maximum number of tokens the model can use for thinking. If None, the model will use the default budget.
                 Only available for Gemini 2.5 Flash Preview and Gemini 2.5 Pro Preview. (Not experimental versions)
             perform_grounding (bool): Whether to perform google search grounding, e.g., ability to search the web for information.

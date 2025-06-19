@@ -82,9 +82,9 @@ Set the `settings` parameter in the `GemSpeakClient.ask_gemini` function, like s
 The `TextGenSettings` class has the following parameters:
 |Paremeter|Desc|Type|
 |--|--|--|
-|`code_execution`|Allow the model to generate and execute code. Active both in thinking and response.|`bool`
-|`perform_thinking`|Allow the model to generate thinking tokens.|`bool`|
-|`thinking_budget`|Limit the allowed number of thinking tokens. Set to `int` for a number, and `None` for automatic limit. | `int | None`|
+|`code_execution`|Allow the model to generate and execute code. Active both in thinking and response.|`bool`|
+|`perform_thinking`|Allow the model to generate thinking tokens. Set to `"AUTO"` to enable if available.|`bool, int`|
+|`thinking_budget`|Limit the allowed number of thinking tokens. Set to `int` for a number, and `None` for automatic limit. | `int, None`|
 |`perform_grounding`|Allow grounding with Google search|`bool`|
 |`url_context`|Allow the URL context tool|`bool`|
 |`ignore_errors`|If the *gemspeak* library is temporarily up-to-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
@@ -327,6 +327,10 @@ Example usage of `Conversation.add_contents` and `Conversation.generate_response
 ```
 
 # Versions
+## 1.1.2
+- Added `perform_thinking` parameter mode for `TextGenSettings` ability to be set as `"AUTO"`
+- Fixed small documentation errors.
+
 ## 1.1.1
 - Bug fix: `GemSpeakClient` was not importable via `gemspeak.GemSpeakClient` as documentation states.
 ## 1.1.0

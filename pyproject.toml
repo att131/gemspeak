@@ -1,6 +1,6 @@
 [project]
 name = "gemspeak"
-version = "1.1.0"
+version = "1.1.2"
 description = "A Python library to manage multiple Google Gemini API keys and interact with the API easily."
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.8"
@@ -25,6 +25,8 @@ dependencies = [
 [project.urls]
 "Homepage" = "https://github.com/att131/gemspeak"
 "Bug Tracker" = "https://github.com/att131/gemspeak/issues"
+"Source" = "https://github.com/att131/gemspeak"
+"Documentation" = "https://github.com/att131/gemspeak#readme"
 
 [build-system]
 requires = ["hatchling"]
