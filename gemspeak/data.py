@@ -25,13 +25,11 @@ SAFETY_VALUE_TO_GEMINI_VALUE = {
 # Model info
 
 ALL_MODELS = [
-"gemini-2.5-flash-preview-05-20",
-"gemini-2.5-flash-preview-04-17",
+"gemini-2.5-pro",
+"gemini-2.5-flash",
+"gemini-2.5-flash-lite-preview-06-17",
 "gemini-2.5-flash-preview-tts",
-"gemini-2.5-pro-preview-06-05",
-"gemini-2.5-pro-preview-05-06",
 "gemini-2.5-pro-preview-tts",
-"gemini-2.5-pro-exp-03-25",
 
 "gemini-2.0-flash",
 "gemini-2.0-flash-preview-image-generation",
@@ -64,17 +62,14 @@ TTS_GEN_AVAILABLE = "TEXT-TO-SPEECH GENERATION AVAILABLE"
 TEXT_EMBEDDING_AVAILABLE = "TEXT EMBEDDING AVAILABLE"
 
 MODELS_TO_FEATURES = {
-"gemini-2.5-flash-preview-05-20":
+"gemini-2.5-pro":
     [TEXT_GEN_AVAILABLE, CODE_EXECUTION_AVAILABLE, THINKING_AVAILABLE, THINKING_BUDGET_AVAILABLE, GROUNDING_AVAILABLE, URL_CONTEXT_AVAILABLE],
-"gemini-2.5-flash-preview-04-17":
+"gemini-2.5-flash":
     [TEXT_GEN_AVAILABLE, CODE_EXECUTION_AVAILABLE, THINKING_AVAILABLE, THINKING_BUDGET_AVAILABLE, GROUNDING_AVAILABLE, URL_CONTEXT_AVAILABLE],
-"gemini-2.5-flash-preview-tts": [TTS_GEN_AVAILABLE],
-"gemini-2.5-pro-preview-06-05":
-    [TEXT_GEN_AVAILABLE, CODE_EXECUTION_AVAILABLE, THINKING_AVAILABLE, THINKING_BUDGET_AVAILABLE, GROUNDING_AVAILABLE, URL_CONTEXT_AVAILABLE],
-"gemini-2.5-pro-preview-05-06":
+"gemini-2.5-flash-lite-preview-06-17":
     [TEXT_GEN_AVAILABLE, CODE_EXECUTION_AVAILABLE, THINKING_AVAILABLE, GROUNDING_AVAILABLE, URL_CONTEXT_AVAILABLE],
+"gemini-2.5-flash-preview-tts": [TTS_GEN_AVAILABLE],
 "gemini-2.5-pro-preview-tts": [TTS_GEN_AVAILABLE],
-"gemini-2.5-pro-exp-03-25": [TEXT_GEN_AVAILABLE, CODE_EXECUTION_AVAILABLE, THINKING_AVAILABLE, GROUNDING_AVAILABLE, URL_CONTEXT_AVAILABLE],
 
 "gemini-2.0-flash": [TEXT_GEN_AVAILABLE, CODE_EXECUTION_AVAILABLE, GROUNDING_AVAILABLE, URL_CONTEXT_AVAILABLE],
 "gemini-2.0-flash-preview-image-generation": [IMAGE_GEN_AVAILABLE],
@@ -97,19 +92,12 @@ MODELS_TO_FEATURES = {
 
 # Mutually exclusive feature pairs. These are feature that cannot be used together in the same request.
 MUTUALLY_EXCLUSIVE_FEATURE_PAIRS = {
-    "gemini-2.5-pro-preview-06-05": [
+    "gemini-2.5-pro": [
         (CODE_EXECUTION_AVAILABLE, THINKING_AVAILABLE),
     ],
-    "gemini-2.5-pro-preview-05-06": [
+    "gemini-2.5-flash": [
         (CODE_EXECUTION_AVAILABLE, THINKING_AVAILABLE),
     ],
-    "gemini-2.5-flash-preview-04-17": [
-        (CODE_EXECUTION_AVAILABLE, URL_CONTEXT_AVAILABLE)
-    ],
-    "gemini-2.5-flash-preview-05-20": [
-        (CODE_EXECUTION_AVAILABLE, URL_CONTEXT_AVAILABLE)
-    ],
-
     "gemini-2.0-flash": [
         (CODE_EXECUTION_AVAILABLE, GROUNDING_AVAILABLE),
         (CODE_EXECUTION_AVAILABLE, URL_CONTEXT_AVAILABLE),

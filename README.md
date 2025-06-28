@@ -87,7 +87,7 @@ The `TextGenSettings` class has the following parameters:
 |`thinking_budget`|Limit the allowed number of thinking tokens. Set to `int` for a number, and `None` for automatic limit. | `int, None`|
 |`perform_grounding`|Allow grounding with Google search|`bool`|
 |`url_context`|Allow the URL context tool|`bool`|
-|`ignore_errors`|If the *gemspeak* library is temporarily up-to-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
+|`ignore_errors`|If the *gemspeak* library is temporarily out-of-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
 |`safety_settings`|The safety settings to use for the model.|`SafetySettings`|
 Example usages of the `TextGenSettings` class:
 ```
@@ -117,7 +117,7 @@ Example usages of the `TextGenSettings` class:
 The `ImageGenSettings` class has the following parameters:
 |Parameter|Desc|Type|
 |--|--|--|
-|`ignore_errors`|If the *gemspeak* library is temporarily up-to-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
+|`ignore_errors`|If the *gemspeak* library is temporarily out-to-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
 |`safety_settings`|The safety settings to use for the model.|`SafetySettings`|
 Example usages of the `ImageGenSettings` class:
 
@@ -146,7 +146,7 @@ The `SingleSpeakerTTSSettings` class has the following parameters:
 |Parameter|Desc|Type|
 |--|--|--|
 |`voice`|The Gemini voice to use. See the Gemini docs for all voices and descriptions.|`str`|
-|`ignore_errors`|If the *gemspeak* library is temporarily up-to-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
+|`ignore_errors`|If the *gemspeak* library is temporarily out-to-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
 |`safety_settings`|The safety settings to use for the model.|`SafetySettings`|
 Example usages of the `SingleSpeakerTTSSettings` class:
 ```
@@ -180,7 +180,7 @@ The `MultiSpeakerTTSSettings` class has the following parameters:
 |--|--|--|
 |`speaker_names`|You must specify the names that are used in the input to show which speakers are saying which text. For example: `["Speaker 1", "Speaker 2"]`|`list[str]`|
 |`voices`|The list of Gemini voice to use, in the same order as the speakers appear in the text. See the Gemini docs for all voices and descriptions.|`str`|
-|`ignore_errors`|If the *gemspeak* library is temporarily up-to-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
+|`ignore_errors`|If the *gemspeak* library is temporarily out-of-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
 |`safety_settings`|The safety settings to use for the model.|`SafetySettings`|
 Example usage of the `MultiSpeakerTTSSettings` class:
 ```
@@ -327,10 +327,11 @@ Example usage of `Conversation.add_contents` and `Conversation.generate_response
 ```
 
 # Versions
+## 1.1.3
+- Updated the data to reflect changes to the Gemini API rate limits
 ## 1.1.2
 - Added `perform_thinking` parameter mode for `TextGenSettings` ability to be set as `"AUTO"`
 - Fixed small documentation errors.
-
 ## 1.1.1
 - Bug fix: `GemSpeakClient` was not importable via `gemspeak.GemSpeakClient` as documentation states.
 ## 1.1.0
