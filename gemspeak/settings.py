@@ -113,6 +113,10 @@ class BaseSettings(abc.ABC):
             TEXT_EMBEDDING_AVAILABLE if isinstance(self, ContentEmbeddingSettings) else None
         ]
 
+        # Gemini 2.5 Pro REQUIRES thinking. Add a special case for that (I will improve this later)
+        if model == "gemini-2.5-pro" and not self.perform_thinking:
+            raise Exception(f"The model 'gemini-2.5-pro' requires 'perform_thinking' to be enabeled.")
+
         # Perform the custom thinking mode "AUTO"
         if self.perform_thinking == "AUTO" and THINKING_AVAILABLE in model_features:
             selected_features.append(THINKING_AVAILABLE)
@@ -145,6 +149,7 @@ class TextGenSettings(BaseSettings):
                  perform_thinking:bool | str="AUTO",
                  thinking_budget:int | None=None,
                  perform_grounding:bool=False,
+                 grounding_threshold:float | None=False,
                  url_context:bool=False,
                  ignore_errors:bool=False,
                  safety_settings:SafetySettings=SafetySettings()
@@ -158,6 +163,8 @@ class TextGenSettings(BaseSettings):
             thinking_budget (int | None): The maximum number of tokens the model can use for thinking. If None, the model will use the default budget.
                 Only available for Gemini 2.5 Flash Preview and Gemini 2.5 Pro Preview. (Not experimental versions)
             perform_grounding (bool): Whether to perform google search grounding, e.g., ability to search the web for information.
+            grounding_threshold (float): If perform_grounding is set to true, this variable controls the grounding threshold for optional grounding.
+                See the Gemini API documentation for more inforamtion.
             ignore_errors (bool): Gemini changes settings frequently, so if the error detection is not up to date, set ignore_errors to True.
                 Otherwise, it will raise an error if the settings are not valid for the model.
             safety_settings (SafetySettings): The safety settings to use for the model.
@@ -169,9 +176,14 @@ class TextGenSettings(BaseSettings):
         self.perform_thinking = perform_thinking
         self.thinking_budget = thinking_budget
         self.perform_grounding = perform_grounding
+        self.grounding_threshold = grounding_threshold
         self.url_context = url_context
         self.ignore_errors = ignore_errors
         self.safety_settings = safety_settings
+
+        # If the grounding_threshold param was set but not perform_grounding, enable perform_grounding
+        if self.grounding_threshold:
+            self.perform_grounding = True
 
     def to_GenerateContentConfig(self):
         """
@@ -184,7 +196,13 @@ class TextGenSettings(BaseSettings):
         tools = []
 
         if self.perform_grounding:
-            tools.append(types.Tool(google_search_retrieval=types.GoogleSearchRetrieval()))
+            if self.grounding_threshold:
+                tools.append(types.DynamicRetrievalConfig(
+                    mode=types.DynamicRetrievalConfigMode.MODE_DYNAMIC,
+                    dynamic_threshold=self.grounding_threshold
+                ))
+            else:
+                tools.append(types.Tool(google_search_retrieval=types.GoogleSearchRetrieval()))
         if self.code_execution:
             tools.append(types.Tool(code_execution=types.ToolCodeExecution()))
         if self.url_context:

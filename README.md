@@ -24,8 +24,8 @@ This chart shows some of the supported features, features in progress, and featu
 # Installation
 
 Install via pip with a simple `pip install` command:
-```
-$ pip install gemspeak
+```bash
+pip install gemspeak
 ```
 
 # Documentation
@@ -86,6 +86,7 @@ The `TextGenSettings` class has the following parameters:
 |`perform_thinking`|Allow the model to generate thinking tokens. Set to `"AUTO"` to enable if available.|`bool, int`|
 |`thinking_budget`|Limit the allowed number of thinking tokens. Set to `int` for a number, and `None` for automatic limit. | `int, None`|
 |`perform_grounding`|Allow grounding with Google search|`bool`|
+|`grounding_threshold`|Allow grounding threshold. Gemini will generate a grounding confidence based on whether it thinks is needs to have grounding, from 0 meaning not at all to 1 meaning definitely needs. Setting this value to `float` instead of `None` will enable grounding of the grounding confidence is greater than the grounding threshold.|`float, NoneType`|
 |`url_context`|Allow the URL context tool|`bool`|
 |`ignore_errors`|If the *gemspeak* library is temporarily out-of-date, enable this variable to prevent checking for setting validity. May cause unexpected errors directly from the `google.genai` library.|`bool`|
 |`safety_settings`|The safety settings to use for the model.|`SafetySettings`|
@@ -95,8 +96,8 @@ Example usages of the `TextGenSettings` class:
 ...		model="gemini-2.5-flash-preview-04-17",
 ...		text="What is the sum of the first 1000 prime numbers?"
 ... 	settings=TextGenSettings(
-... 		code_execution=True,
-... 		perform_thinking=True
+... 		code_execution=True, # Allow code execution
+... 		perform_thinking=True # Allow thinking
 ... 	)
 ... )
 ```
@@ -105,11 +106,19 @@ Example usages of the `TextGenSettings` class:
 ... 	model="gemini-2.0-flash",
 ... 	text="Tell me about WWII",
 ... 	settings=TextGenSettings(
-... 		perform_grounding=True,
+... 		perform_grounding=True, # Allow Google grounding
 ... 		safety_settings=SafetySettings(
-... 			dangerous_content="BLOCK MORE",
-... 			civic_integrity="BLOCK MOST"
+... 			dangerous_content="BLOCK MORE", # Block most dangerous content
+... 			civic_integrity="BLOCK MOST" # Block some anti civic integrity content
 ... 		)
+... 	)
+... )
+>>> response = cli.ask_gemini(
+... 	model="gemini-1.5-flash",
+... 	text="Who won FRC 2024?",
+... 	settings=TextGenSettings(
+... 		perform_grounding=True,
+... 		grounding_threshold=0.7 # Only ground if highly confident
 ... 	)
 ... )
 ```
@@ -327,6 +336,10 @@ Example usage of `Conversation.add_contents` and `Conversation.generate_response
 ```
 
 # Versions
+
+## 1.1.4
+- Added adjustable grounding threshold to the `TextGenSettings` class.
+- Added check to ensure thinking is enabeled for Gemini 2.5 Pro; it is required.
 ## 1.1.3
 - Updated the data to reflect changes to the Gemini API rate limits
 ## 1.1.2
